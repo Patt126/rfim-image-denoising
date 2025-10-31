@@ -1,9 +1,10 @@
 # RFIM-Inspired Image Denoising with MCMC
 
-This project explores how **Markov Chain Monte Carlo (MCMC)** methods—specifically **Metropolis-Hastings** and **Gibbs sampling**—can be applied to **binary image denoising** by modeling pixels as spins in an **Ising-like Markov Random Field (MRF)**.
+This project explores how **Markov Chain Monte Carlo (MCMC)** methods—specifically **Metropolis-Hastings** and **Gibbs sampling**—can be applied to **binary image denoising**, by modeling pixels as spins in an **Ising-like Markov Random Field (MRF)**.
 
-When the observed image acts as an **external field**, the system becomes analogous to the **Random Field Ising Model (RFIM)** from statistical physics.  
-This analogy enables the study of **noise-induced phase transitions** between ordered (recoverable) and disordered (unrecoverable) states.
+When the observed image acts as an **external field**, the problem becomes analogous to the **Random Field Ising Model (RFIM)** from statistical physics.  
+This connection allows the study of **phase transitions** between ordered and disordered states as image noise increases.  
+An additional theoretical appendix extends this analysis using **Replica and Approximate Message Passing (AMP)** methods to characterize information-theoretic phase transitions.
 
 ---
 
@@ -12,42 +13,84 @@ This analogy enables the study of **noise-induced phase transitions** between or
 - **Models**
   - *Ising prior:* pairwise interaction enforcing local alignment.
   - *Anisotropic extension:* different couplings along horizontal, vertical, and diagonal directions.
-  - *Posterior model:* adds a likelihood term acting as an external field from the observed noisy image.
+  - *Posterior model:* includes a likelihood term acting as an external field derived from the observed noisy image.
 
 - **Algorithms**
-  - **Metropolis sampler:** stochastic spin-flip acceptance based on local energy differences.
-  - **Gibbs sampler:** direct resampling from local conditional probabilities.
-  - **Simulated annealing:** gradual temperature decay toward MAP estimation.
+  - **Metropolis sampler:** stochastic spin-flip acceptance based on local energy changes.
+  - **Gibbs sampler:** exact conditional resampling at each site.
+  - **Simulated annealing:** optional cooling schedule to approximate MAP estimates.
 
 - **Applications**
-  - Binary image denoising under MRF priors.
-  - Visualization of RFIM-like phase transitions.
-  - Empirical illustration of Bayesian inference as stochastic relaxation.
+  - Binary image denoising
+  - Study of noise-induced phase transitions
+  - Illustration of physical inference concepts (energy minimization ↔ MAP estimation)
 
 ---
 
 ![Graphical model of the MRF for image denoising](MRF.png)
 
-*Each node \(x_i\) represents a latent clean pixel, with \(y_i\) its noisy observation.
-Edges encode spatial coupling (Ising prior), while vertical links represent the data likelihood — an external field aligning the model with the observed image.*
-
----
+*Each node \(x_i\) is a latent clean pixel, and \(y_i\) its observed noisy counterpart.
+Edges encode spatial interactions (Ising prior), while vertical links represent the external field induced by the data likelihood.*
 
 ## 🔸 Phase Transition Interpretation
 
-Increasing image noise induces a transition between distinct regimes:
+As the noise level increases, the external field (the observed image) becomes inconsistent, and the system undergoes a qualitative transition:
 
-- **Low noise:** spins align with the data field — the image structure is preserved.  
-- **Intermediate noise:** partial disorder emerges — local clusters remain but global coherence weakens.  
-- **High noise:** order collapses — the reconstruction loses structure.  
+- **Low noise:** spins align with the field, preserving image structure.  
+- **Critical noise:** partial disorder emerges—analogous to the RFIM critical regime.  
+- **High noise:** global order collapses; denoising fails.
 
-This phenomenon mirrors the **order–disorder transition** in the **Random Field Ising Model (RFIM)**.  
-It highlights the connection between inference under noise and phase transitions in disordered systems.
+This mirrors the **order–disorder transition** known from the **Random Field Ising Model**, as discussed in:
 
-**Reference:**  
-M. Mézard and A. Montanari, *Information, Physics, and Computation*, Oxford University Press, 2009.
+> M. Mézard and A. Montanari, *Information, Physics, and Computation*, Oxford University Press, 2009.
 
 ---
 
 ## 🔸 Repository Structure
+rfim-image-denoising/
+│
+├── main.py # Entry point for experiments  
+├── Gibbs.py # Gibbs sampler for isotropic MRF  
+├── Metropolis.py # Metropolis-Hastings sampler  
+├── AGibbs.py # Anisotropic Gibbs sampler  
+├── AMetropolis.py # Anisotropic Metropolis sampler  
+│
+├── results/
+│ ├── Results without external field  
+│ ├── Result with Image Prior  
+│
+├── replica_phase_transitions/  
+│ ├── Exercise1.pdf  
+│ ├── Exercise2.pdf  
+│ ├── Exercise3.pdf  
+│ └── README.md  ← Theoretical appendix: replica & AMP analysis  
+│
+├── paper.pdf  
+│
+└── README.md  
 
+---
+
+## 🔸 Theoretical Extension — Replica Phase Transitions
+
+The folder `replica_phase_transitions/` provides a **theoretical complement** to the numerical MCMC experiments.  
+It summarizes results derived using **Replica**, **Cavity**, and **Approximate Message Passing (AMP)** techniques, following:
+
+> F. Krzakala and L. Zdeborová, *Statistical Physics Methods in Optimization and Machine Learning*, Collège de France, 2022.
+
+These methods analyze the same kind of **order–disorder transition** observed empirically in the denoising experiments — but from a **mean-field analytical perspective**.  
+They predict **information-theoretic phase boundaries** separating recoverable from unrecoverable regimes in inference problems under random noise.
+
+The analogy with the RFIM becomes explicit:  
+the external field (the noisy image) biases each site, and as disorder increases, the system crosses a transition where consistent reconstruction becomes impossible.  
+This provides a direct theoretical link between **spin-glass physics** and **statistical inference**.
+
+---
+
+## 🔸 Usage
+
+```bash
+python main.py
+```
+The script loads a binary image, adds synthetic noise, and applies both Gibbs and Metropolis samplers for comparison.
+Parameters such as temperature, coupling constants, and number of iterations can be tuned directly in main.py.
