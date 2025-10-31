@@ -47,21 +47,18 @@ This mirrors the **order–disorder transition** known from the **Random Field I
 ---
 
 ## 🔸 Repository Structure
-rfim-image-denoising
-
-| ├── main.py # Entry point for experiments  
-| ├── Gibbs.py # Gibbs sampler for isotropic MRF  
-| ├── Metropolis.py # Metropolis-Hastings sampler  
-| ├── AGibbs.py # Anisotropic Gibbs sampler  
-| ├── AMetropolis.py # Anisotropic Metropolis sampler  
+rfim-image-denoising/
+├── main.py # Entry point for experiments  
+├── Gibbs.py # Gibbs sampler for isotropic MRF  
+├── Metropolis.py # Metropolis-Hastings sampler  
+├── AGibbs.py # Anisotropic Gibbs sampler  
+├── AMetropolis.py # Anisotropic Metropolis sampler  
 │
-├── results
-
+├── results/
 │ ├── Results without external field  
 │ ├── Result with Image Prior  
 │
-├── replica_phase_transitions
-
+├── replica_phase_transition/
 │ ├── Exercise1.pdf  
 │ ├── Exercise2.pdf  
 │ ├── Exercise3.pdf  
