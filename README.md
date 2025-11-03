@@ -3,7 +3,7 @@
 This project explores how **Markov Chain Monte Carlo (MCMC)** methods—specifically **Metropolis-Hastings** and **Gibbs sampling**—can be applied to **binary image denoising**, by modeling pixels as spins in an **Ising-like Markov Random Field (MRF)**.
 
 When the observed image acts as an **external field**, the problem becomes analogous to the **Random Field Ising Model (RFIM)** from statistical physics.  
-This connection allows the study of **phase transitions** between ordered and disordered states as image noise increases.  
+Beyond the denoising task,this connection allows the study of **phase transitions** between ordered and disordered states as image noise increases.  
 An additional theoretical appendix extends this analysis using **Replica and Approximate Message Passing (AMP)** methods to characterize information-theoretic phase transitions.
 
 ---
