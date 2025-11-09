@@ -1,6 +1,6 @@
 # Replica Phase Transitions — Theoretical Appendix
 
-This folder extends the MCMC image denoising project with a theoretical perspective from the **statistical physics of inference**, linking spin-based image models to the analysis of phase transitions in high-dimensional recovery problems.
+This folder extends the MCMC image denoising project with a theoretical perspective from the **statistical physics of inference**, linking spin-based image models to the analysis of phase transitions in high-dimensional recovery problems. Plus to additional presentation I did in exam courses: one about critical dimension in RFIM the second about inference algorithm on trees
 
 ---
 
